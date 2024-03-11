@@ -1,0 +1,18 @@
+[Unit]
+Description=joinery Container
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStartPre=-/usr/bin/docker stop dashotv/joinery
+ExecStartPre=-/usr/bin/docker rm dashotv/joinery
+ExecStartPre=/usr/bin/docker pull dashotv/joinery
+ExecStart=/usr/bin/docker run --rm --name %n \
+    --add-host=host.docker.internal:host-gateway \
+    -p 3000:3000 \
+    dashotv/joinery
+
+[Install]
+WantedBy=multi-user.target

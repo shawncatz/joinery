@@ -1,0 +1,15 @@
+name: watches
+type: model
+fields:
+  - name: id
+    type: string
+  - name: user_id
+    type: string
+  - name: username
+    type: string
+  - name: guild_id
+    type: string
+  - name: channel_id
+    type: string
+  - name: game
+    type: string

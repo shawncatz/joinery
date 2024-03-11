@@ -1,0 +1,6 @@
+joinery
+/tmp
+.env*
+.md5*
+
+!.env.vault

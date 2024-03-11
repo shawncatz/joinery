@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if [[ -e ".env.vault" ]]; then
+  echo "[pre-commit] checking .env.vault file..."
+  if ! md5sum -c - <".md5.env" &>/dev/null ||
+    ! md5sum -c - <".md5.env.production" &>/dev/null; then
+    echo "[pre-commit] updating .env.vault file..."
+    npx dotenv-vault local build &>/dev/null
+    git add .env.vault
+    md5sum ".env" >".md5.env"
+    md5sum ".env.production" >".md5.env.production"
+  fi
+fi

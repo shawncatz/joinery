@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  joinery:
+    image: cosmtrek/air
+    working_dir: /app
+    command: server
+    container_name: joinery
+    ports:
+      - '9999:9999'
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+    #   - redis
+    #   - nats
+  db:
+    image: mongo:7.0.2
+    ports:
+      - 27017:27017
+    volumes:
+      - db:/data/db
+
+#   nats:
+#     image: nats:alpine
+#     ports:
+#       - 4222:4222
+#       - 6222:6222
+#       - 8222:8222
+#       - 9222:9222
+#     volumes:
+#       - /Users/shawn/catz/dashotv/nats/etc/nats-server.conf:/etc/nats/nats-server.conf
+#   redis:
+#     image: redis:7-alpine
+#     restart: always
+#     ports:
+#       - "6379:6379"
+#     command: redis-server --loglevel warning # --save 20 1  --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+#     volumes:
+#       - cache:/data
+volumes:
+  # cache:
+  #   driver: local
+  db:
+    driver: local

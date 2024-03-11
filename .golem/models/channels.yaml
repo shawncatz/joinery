@@ -1,0 +1,9 @@
+name: channels
+type: model
+fields:
+    - name: guild_id
+      type: string
+    - name: channel_id
+      type: string
+    - name: name
+      type: string

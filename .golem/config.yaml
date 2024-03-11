@@ -1,0 +1,17 @@
+version: "2.0"
+name: joinery
+repo: github.com/shawncatz/joinery
+package: app
+output: app
+plugins:
+    models: true
+    routes: false
+    workers: false
+    cache: false
+    events: false
+definitions:
+    models: .golem/models
+    routes: .golem/routes
+    events: .golem/events
+    workers: .golem/workers
+    queues: .golem/queues

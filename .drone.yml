@@ -1,0 +1,45 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: build
+    image: golang
+    commands:
+      - go test -v ./...
+      - go build
+  - name: publish
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      repo: org/joinery
+      tags:
+        - latest
+  - name: deploy
+    image: appleboy/drone-ssh
+    settings:
+      host:
+        - 10.0.4.61
+      port: 22
+      username: deploy
+      key:
+        from_secret: ssh_key
+      command_timeout: 2m
+      script:
+        - sudo service joinery restart
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook
+    when:
+      status: [success, failure]
+
+trigger:
+  branch:
+    - main
+  event:
+    - push
