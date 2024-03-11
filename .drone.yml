@@ -3,33 +3,32 @@ type: docker
 name: default
 
 steps:
-  - name: build
-    image: golang
-    commands:
-      - go test -v ./...
-      - go build
   - name: publish
     image: plugins/docker
+    environment:
+      DOCKER_BUILDKIT: 1
     settings:
+      registry: docker.dasho.tv
       username:
-        from_secret: dockerhub_username
+        from_secret: docker_dasho_username
       password:
-        from_secret: dockerhub_password
-      repo: org/joinery
+        from_secret: docker_dasho_password
+      repo: docker.dasho.tv/shawncatz/joinery
       tags:
         - latest
+        - ${DRONE_BUILD_NUMBER}
   - name: deploy
     image: appleboy/drone-ssh
     settings:
       host:
-        - 10.0.4.61
+        - 10.0.4.62
       port: 22
       username: deploy
       key:
         from_secret: ssh_key
       command_timeout: 2m
       script:
-        - sudo service joinery restart
+        - cd /srv/joinery && docker compose pull -q joinery && docker compose up -d --no-deps joinery
   - name: slack
     image: plugins/slack
     settings:
@@ -43,3 +42,4 @@ trigger:
     - main
   event:
     - push
+    - custom
