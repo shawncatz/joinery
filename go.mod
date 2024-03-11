@@ -6,7 +6,6 @@ require (
 	github.com/bwmarrin/discordgo v0.27.1
 	github.com/caarlos0/env/v10 v10.0.0
 	github.com/dashotv/grimoire v0.5.1
-	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/dotenv-org/godotenvvault v0.6.0
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/pkg/errors v0.9.1
@@ -19,6 +18,7 @@ require (
 
 require (
 	github.com/blendle/zapdriver v1.3.1 // indirect
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
