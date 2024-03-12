@@ -28,7 +28,6 @@ func setupBot(a *Application) error {
 func startBot(ctx context.Context, a *Application) error {
 	a.Bot.db = a.DB // race during initialization, do it here so we know its ready
 	go func() {
-		a.Log.Debug("Bot started")
 		if err := a.Bot.Start(ctx); err != nil {
 			a.Log.Errorf("Bot error: %v", err)
 		}

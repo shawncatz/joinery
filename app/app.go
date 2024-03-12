@@ -69,11 +69,13 @@ func Start() error {
 
 	// Wait here until CTRL-C or other term signal is received.
 	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP, os.Interrupt)
 
 	for {
 		select {
 		case <-sc:
+			app.Log.Info("interrupt")
+			cancel()
 		case <-ctx.Done():
 			app.Log.Info("stopping")
 			return nil

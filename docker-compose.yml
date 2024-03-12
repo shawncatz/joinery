@@ -5,6 +5,8 @@ services:
     working_dir: /app
     command: server
     container_name: joinery
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - '9999:9999'
     volumes:

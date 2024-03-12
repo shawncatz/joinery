@@ -49,6 +49,7 @@ func NewBot(token, helpText string, log *zap.SugaredLogger) (*Bot, error) {
 }
 
 func (b *Bot) Start(ctx context.Context) error {
+	b.log.Debugf("starting bot")
 	// Open the websocket and begin listening.
 	if err := b.dg.Open(); err != nil {
 		return fmt.Errorf("Error opening Discord session: %w", err)
@@ -56,7 +57,7 @@ func (b *Bot) Start(ctx context.Context) error {
 
 	select {
 	case <-ctx.Done():
-		// break
+		b.log.Infof("shutting down bot")
 	}
 
 	// Cleanly close down the Discord session.
@@ -169,8 +170,9 @@ func (b *Bot) messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 }
 
+// TODO: add guild model
 func (b *Bot) guildCreate(s *discordgo.Session, m *discordgo.GuildCreate) {
-	b.log.Debugf("guild: [%s] %s", m.ID, m.Name)
+	// b.log.Debugf("guild: [%s] %s", m.ID, m.Name)
 	lobby := ""
 
 	guild, err := s.State.Guild(m.Guild.ID)
@@ -181,7 +183,7 @@ func (b *Bot) guildCreate(s *discordgo.Session, m *discordgo.GuildCreate) {
 
 	for _, c := range guild.Channels {
 		if c.Type == discordgo.ChannelTypeGuildVoice {
-			b.log.Debugf("guild: [%s] %s channel: [%s] %s", m.ID, m.Name, c.ID, c.Name)
+			// b.log.Debugf("guild: [%s] %s channel: [%s] %s", m.ID, m.Name, c.ID, c.Name)
 			if c.Name == "Lobby" {
 				lobby = c.ID
 			}
